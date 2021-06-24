@@ -142,15 +142,17 @@ class Harvester:
      #   self.cookie_jar = None
      #   self.logged_in = False
 
-     async def _start(self):
+    async def _start(self):
        self._refresh_lock = asyncio.Lock()
        try:
            if self.username is not None and self.password is not None:
-              status = await self.sign_in(self.username, self.password)
-              if status is True:
+               status = await self.sign_in(self.username, self.password)
+               if status is True:
                    self.logged_in = True
        except Exception as e:
            self.logged_in = True
+            
+            
 
     def _close(self):
         self._is_shutdown = True
