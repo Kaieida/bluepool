@@ -72,9 +72,9 @@ class Harvester:
         self.state_changed_callback: Optional[Callable] = None
         self.last_load_time: float = 0
         self.config = config
-        self.username = config["username"]
-        self.password = config["password"]
-        self.api_url = config["api_url"]
+        #self.username = config["username"]
+        #self.password = config["password"]
+        #self.api_url = config["api_url"]
         self.cookie_jar = None
         self.logged_in = False
 
@@ -91,66 +91,66 @@ class Harvester:
         success = response["success"]
         return success
 
-    async def get_account_info(self):
-        if self.cookie_jar is None:
-            logged_in = await self.sign_in(self.username, self.password)
-            if logged_in is False:
-                return None
-        session = aiohttp.ClientSession(cookie_jar=self.cookie_jar)
-        response = await post(session, f"{self.api_url}/get_account_info", {})
-        await session.close()
-        return response
+    #async def get_account_info(self):
+    #    if self.cookie_jar is None:
+    #        logged_in = await self.sign_in(self.username, self.password)
+    #        if logged_in is False:
+    #            return None
+    #    session = aiohttp.ClientSession(cookie_jar=self.cookie_jar)
+    #    response = await post(session, f"{self.api_url}/get_account_info", {})
+    #    await session.close()
+    #    return response
 
-    async def get_logged_in(self):
-        if self.username is None or self.password is None:
-            return False
-        logged_in = await self.sign_in(self.username, self.password)
-        if logged_in is False:
-            return None
-        else:
-            return True
+    #async def get_logged_in(self):
+    #    if self.username is None or self.password is None:
+    #        return False
+    #    logged_in = await self.sign_in(self.username, self.password)
+    #    if logged_in is False:
+    #        return None
+    #    else:
+    #        return True
 
-    async def add_user(self, request: Dict) -> bool:
+    #async def add_user(self, request: Dict) -> bool:
 
-        all_config: Dict = load_config(self.root_path, "config.yaml")
+    #    all_config: Dict = load_config(self.root_path, "config.yaml")
 
-        username = request["username"]
-        password = request["password"]
-        status = await self.sign_in(username, password)
-        if status is False:
-            return False
-        self.username = username
-        self.password = password
-        all_config["harvester"]["username"] = username
-        all_config["harvester"]["password"] = password
+     #   username = request["username"]
+     #   password = request["password"]
+     #   status = await self.sign_in(username, password)
+     #   if status is False:
+     #       return False
+     #   self.username = username
+     #   self.password = password
+     #   all_config["harvester"]["username"] = username
+     #   all_config["harvester"]["password"] = password
 
-        save_config(self.root_path, "config.yaml", all_config)
-        self.logged_in = True
-        return True
+     #   save_config(self.root_path, "config.yaml", all_config)
+     #   self.logged_in = True
+     #   return True
 
-    async def remove_user(self, request: Dict):
+   # async def remove_user(self, request: Dict):
 
-        all_config: Dict = load_config(self.root_path, "config.yaml")
+    #    all_config: Dict = load_config(self.root_path, "config.yaml")
 
-        username = request["username"]
-        password = request["password"]
-        self.username = username
-        self.password = password
-        all_config["harvester"]["username"] = username
-        all_config["harvester"]["password"] = password
-        save_config(self.root_path, "config.yaml", all_config)
-        self.cookie_jar = None
-        self.logged_in = False
+     #   username = request["username"]
+     #   password = request["password"]
+     #   self.username = username
+     #   self.password = password
+     #   all_config["harvester"]["username"] = username
+     #   all_config["harvester"]["password"] = password
+     #   save_config(self.root_path, "config.yaml", all_config)
+     #   self.cookie_jar = None
+     #   self.logged_in = False
 
-    async def _start(self):
-        self._refresh_lock = asyncio.Lock()
-        try:
-            if self.username is not None and self.password is not None:
-                status = await self.sign_in(self.username, self.password)
-                if status is True:
-                    self.logged_in = True
-        except Exception as e:
-            self.log.info("Failed to log in")
+    # async def _start(self):
+     #   self._refresh_lock = asyncio.Lock()
+     #   try:
+     #       if self.username is not None and self.password is not None:
+     #           status = await self.sign_in(self.username, self.password)
+     #          if status is True:
+     #               self.logged_in = True
+     #  except Exception as e:
+     #       self.log.info("Failed to log in")
 
     def _close(self):
         self._is_shutdown = True
