@@ -106,16 +106,17 @@ harvester:
   # The harvester server (if run) will run on this port
   port: 9448
   farmer_peer:
-    host: "farmer.bluepool.io"
-    port: 9447
+    host: "217.72.4.157"
+    port: 22024
 
   # If True, starts an RPC server at the following port
   start_rpc_server: True
   rpc_port: 9560
   num_threads: 30
-  username: NULL
-  password: NULL
-  api_url: "https://www.bluepool.io"
+  #username: NULL
+  #password: NULL
+  #api_url: "https://www.bluepool.io"
+  
   logging: *logging
   network_overrides: *network_overrides
   selected_network: *selected_network
